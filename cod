@@ -1,0 +1,91 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Conta {
+    static Scanner sc = new Scanner(System.in);
+    static ArrayList<ContaCorrente> Contas = new ArrayList<>();
+
+    public static void main(String[] args) {
+        System.out.println("Bem vindo ao banco!");
+        System.out.println("Crie sua conta conosco. ");
+        cadastrar();
+        menuPrincipal();
+        System.out.println("Obrigado pela preferência!");
+    }
+
+    public static void cadastrar(){
+        System.out.print("Nome: ");
+        String nome = sc.next();
+        System.out.print("Endereço: ");
+        String endereco = sc.next();
+        System.out.print("CPF: ");
+        long cpf = sc.nextLong();
+        System.out.print("Profissão: ");
+        String profissao = sc.next();
+        System.out.print("Renda: ");
+        double renda = sc.nextDouble();
+        System.out.print("Agência: ");
+        int agencia = sc.nextInt();
+        Contas.add(new ContaCorrente(nome, endereco, cpf, profissao, renda, agencia));
+        System.out.println("Criou a conta. Seja muito bem vindo!");
+    }
+
+    public static void menuPrincipal(){
+        System.out.println("Deseja realizar uma movimentação ou ver as informações da sua conta? " +
+                "\n1 - Movimentação" +
+                "\n2 - Ver informações");
+        int opcaoMenu = sc.nextInt();
+
+        switch (opcaoMenu){
+            case 1:
+                switchOpcao1();
+                break;
+            case 2:
+                switchOpcao2();
+                break;
+
+        }
+    }
+    public static void switchOpcao1(){
+        System.out.println("Qual o número da conta você deseja realizar uma movimentação?");
+        int numeroConta = sc.nextInt();
+        for (int i = 0; i < Contas.size(); i++) {
+            if (numeroConta == Contas.get(i).getNumConta()) {
+                int escolhaOperacao;
+                System.out.println("MENU" + "\n1 - Depositar" + "\n2 - Sacar" + "\n3 - Checar saldo" + "\n4 - Sair" + "\n5 - Voltar");
+                escolhaOperacao = sc.nextInt();
+                switch (escolhaOperacao) {
+                    case 1: {
+                        System.out.print("Valor do depósito: ");
+                        double valorDeposito = sc.nextDouble();
+                        Contas.get(i).depositar(valorDeposito);
+                        menuPrincipal();
+                        break;
+                    }
+                    case 2: {
+                        System.out.print("Valor do saque: ");
+                        double valorSaque = sc.nextDouble();
+                        Contas.get(i).sacar(valorSaque);
+                        menuPrincipal();
+                        break;
+                    }
+                    case 3:
+                        System.out.println(Contas.get(i).informacoes());
+                        menuPrincipal();
+                        break;
+                    case 4:
+                        System.exit(0);
+                    case 5:
+                        menuPrincipal();
+                            }
+                    }
+                }
+        }
+
+    public static void switchOpcao2(){
+                for (int i = 0; i < Contas.size(); i++) {
+                    System.out.println(Contas.get(i).informacoes());
+                    menuPrincipal();
+                }
+        }
+}
